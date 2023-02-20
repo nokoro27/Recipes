@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
+    <title>Document</title>
+</head>
+<body>
+    {% with messages = get_flashed_messages(True) %}
+    <div>
+        <div class="navbar">
+            <h1>Add Recipe Here: </h1>
+            <ul>
+                <li>
+                    <a href="/users/{{user.id}}">Dashboard</a>
+                </li>
+                <li>
+                    <a href="/logout">Logout</a>
+                </li>
+            <ul>
+        </div>
+        <form 
+        {% if recipe.id %}
+            action="/edit_recipe" 
+            {% endif %}
+        {% if not recipe.id %}
+            action="/add_recipe" 
+        {% endif %}
+                method="POST">
+
+            <input type="text" value="{{recipe.id}}" name='id' hidden>
+            <input type="number" value="{{user.id}}" hidden name="user_id">
+            <div class="row">
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name" value="{{recipe.name}}">
+            </div>
+            {% for category, message in messages %}
+                {% if category == 'name' %}
+                    <p class='flashes'>
+                        {{message}}
+                    </p>
+                {% endif %}
+            {% endfor %}
+        
+            <div class="row">
+                <label for="description">Description:</label>
+                <textarea name="description" id="description" cols="30" rows="10">{{recipe.description}}</textarea>
+            </div>
+            {% for category, message in messages %}
+                {% if category == 'description' %}
+                    <p class='flashes'>
+                        {{message}}
+                    </p>
+                {% endif %}
+            {% endfor %}
+        
+            <div class="row">
+                <label for="instructions">Instructions: </label>
+                <textarea name="instructions" id="instructions" cols="30" rows="10">{{recipe.instructions}}</textarea>
+            </div>
+            {% for category, message in messages %}
+                {% if category == 'instructions' %}
+                    <p class='flashes'>
+                        {{message}}
+                    </p>
+                {% endif %}
+            {% endfor %}
+        
+            <div class="row">
+                <label for="date">Date Made On: </label>
+                <input type="date" name="date" id='date' value="{{recipe.date}}">
+            </div>
+            {% for category, message in messages %}
+                {% if category == 'date' %}
+                    <p class='flashes'>
+                        {{message}}
+                    </p>
+                {% endif %}
+            {% endfor %}
+        
+            <div class="row">
+                <p>Cook in under 30 Minutes? </p>
+                <label for="sub30_true">True</label>
+                <input type="radio" value="True" name="sub30" id="sub30_true" class="radio"
+                    {% if recipe.under_30 == 1 %}
+                        checked
+                    {% endif %}
+                >
+                <label for="sub30_false">False</label>
+                <input type="radio" value="False" name="sub30" id="sub30_false" class="radio"
+                    {% if recipe.under_30 ==  0 %}
+                        checked
+                    {% endif %}
+                >
+            </div>
+            {% for category, message in messages %}
+                {% if category == 'sub30' %}
+                    <p class='flashes'>
+                        {{message}}
+                    </p>
+                {% endif %}
+            {% endfor %}
+            <input type="button" value="Create" id='create'>
+        </form>
+    </div>
+
+    {% endwith %}
+    
+    <script src="{{url_for('static', filename='js/recipe.js')}}"></script>
+</body>
+</html>

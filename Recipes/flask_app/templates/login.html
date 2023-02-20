@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
+    <title>Recipes</title>
+</head>
+<body>
+    {% with messages = get_flashed_messages(True) %}
+    <div class="container">
+        <h2>Register</h2>
+        <form action="/register" method="POST">
+            <div class="row">
+                <label for="first_name">First Name:</label><br>
+                <input type="text" id="first_name" name="first_name" value="{{session.first_name}}">
+                {% for category, message in messages %}
+                    {% if category == 'first_name' %}
+                        <p class='flashes'>
+                            {{message}}
+                        </p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="row">
+                <label for="last_name">Last Name:</label><br>
+                <input id="last_name" name="last_name" value="{{session.last_name}}"></input>
+                {% for category, message in messages %}
+                    {% if category == 'last_name' %}
+                        <p class='flashes'>
+                            {{message}}
+                        </p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+            <div class="row">
+                <label for="email">Email:</label><br>
+                <input id="email" name="email" value="{{session.email}}"></input>
+                {% for category, message in messages %}
+                    {% if category == 'email' %}
+                        <p class='flashes'>
+                            {{message}}
+                        </p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+            <div class="row">
+                <label for="password1">Password:</label><br>
+                <input id="password1" name="password1" type="password"></input>
+                {% for category, message in messages %}
+                    {% if category == 'password' %}
+                        <p class='flashes'>
+                            {{message}}
+                        </p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+            <div class="row">                
+                <label for="password2">Confirm Password:</label><br>
+                <input id="password2" name="password2" type="password"></input>
+            </div>
+
+            <input type="submit" value="Register!" class="submit">
+        </form>
+    </div>
+    <div class="container">
+        <h2>Login:</h2>
+        <form action="/login" method="POST">
+            
+            <div class="row">
+                <label for="email">Email:</label><br>
+                <input id="email" name="email" value="{{session.email}}"></input>
+            </div>
+            <div class="row">
+                
+                <label for="password">Password:</label><br>
+                <input id="password" name="password" type="password"></input>
+            </div>
+
+            <input type="submit" value="Login" class="submit">
+        </form>
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'login' %}
+                    <p class="flashes">{{ message }}</p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    {{session}}
+    <script src="{{url_for('static', filename='js/login.js')}}"></script>
+</body>
+</html>
